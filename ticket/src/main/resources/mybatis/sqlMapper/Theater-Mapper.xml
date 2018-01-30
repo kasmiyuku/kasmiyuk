@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TheaterMapper">
+
+	<update id="insertTheater">
+		insert into theater (ttr_no, com_id, ttr_cat, ttr_title,ttr_sdate, ttr_edate , ttr_place, ttr_time, ttr_alert, ttr_content)
+		values(theater_seq.nextval, #{com_id}, #{ttr_cat}, #{ttr_title},#{ttr_sdate},#{ttr_edate}, #{ttr_place}, #{ttr_time}, #{ttr_alert}, #{ttr_content})
+	</update>
+
+	<select id="selectTheaterBytno" resultType="theater">
+		select 
+		ttr_no, com_id, ttr_cat, ttr_title, ttr_sdate,  ttr_edate, ttr_place, ttr_time, ttr_alert, ttr_content
+		 from
+		theater
+		where ttr_no = #{ttr_no}
+	</select>
+
+	<update id="updateTheater">
+		update theater set com_id =#{com_id}, ttr_cat =#{ttr_cat}, ttr_title =#{ttr_title}, ttr_sdate =#{ttr_sdate}, ttr_edate =#{ttr_edate}, ttr_place =#{ttr_place},
+		 ttr_time =#{ttr_time}, ttr_alert =#{ttr_alert}, ttr_content =#{ttr_content}
+		where ttr_no = #{ttr_no}
+	</update>
+
+	<update id="deleteTheater">
+		delete from theater where ttr_no = #{ttr_no}
+	</update>
+
+	<select id="selectTheaterList" resultType="theater">
+	 	<![CDATA[	
+	 		select
+		 	ttr_no, com_id, ttr_cat, ttr_title, ttr_date, ttr_sdate,  ttr_edate, ttr_place, ttr_time, ttr_alert, ttr_content
+			from theater 
+			where ttr_no > 0 
+		 	order by ttr_no desc, ttr_date desc
+	 	]]>
+		 	
+	 
+	</select>
+	<update id="insertAttach">
+		insert into file_tbl(file_id,file_name,ttr_no)
+		values(#{file_id},#{file_name},#{ttr_no})
+	</update>
+	<select id="selectMaxtno" resultType="int">
+		select max(ttr_no) from theater
+	</select>
+	<select id="selectAttach" resultType="str">
+		select file_name
+		from file_tbl
+		where ttr_no=#{ttr_no}
+		order by file_id
+	</select>
+	<update id="deleteAttach">
+		delete from file_tbl
+		where ttr_no=#{ttr_no}
+	</update>
+</mapper>
