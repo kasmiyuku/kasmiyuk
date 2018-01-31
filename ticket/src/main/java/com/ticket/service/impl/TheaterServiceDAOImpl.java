@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import com.ticket.dao.TheaterDAO;
 import com.ticket.domain.Criteria;
 import com.ticket.domain.TheaterVO;
@@ -23,7 +24,6 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 	@Override
 	public void createTheater(TheaterVO theater) throws SQLException {
 		
-		System.out.println(theater);
 		
 		theaterDAO.insertTheater(theater);
 			
@@ -82,9 +82,15 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 	}
 
 
+
 	@Override
-	public List<String> getAttach(int ttr_no) throws SQLException {
+	public List<String> getAttach(int ttr_no)
+			throws SQLException {
 		List<String> fileNames=theaterDAO.selctAttach(ttr_no);
+							
+		
+		
+				
 		return fileNames;
 	}
 

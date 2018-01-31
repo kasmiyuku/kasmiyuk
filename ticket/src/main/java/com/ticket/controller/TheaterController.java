@@ -164,6 +164,7 @@ public class TheaterController {
 		HttpHeaders headers=new HttpHeaders();
 		
 		fileName=fileName.replace('/', File.separatorChar);
+		System.out.println("!!!!!!!!!!"+fileName);
 		in = new FileInputStream(uploadPath+fileName);
 		if(mType!=null){
 			headers.setContentType(mType);
