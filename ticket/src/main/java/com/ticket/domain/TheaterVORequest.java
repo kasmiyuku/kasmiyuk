@@ -2,6 +2,7 @@ package com.ticket.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 public class TheaterVORequest {
 	private int ttr_no;
@@ -16,10 +17,38 @@ public class TheaterVORequest {
 	private String ttr_alert;
 	private String ttr_content;
 	
-	private String[] files;
+	private String[] thumFiles; // 썸네일 이미지
+	private String[] seatFiles; // 좌석배치 이미지
+	private String[] files; //첨부파일
+	
+	private String ttr_ss;
 
 	
 	
+	public String[] getThumFiles() {
+		return thumFiles;
+	}
+
+	public void setThumFiles(String[] thumFiles) {
+		this.thumFiles = thumFiles;
+	}
+
+	public String[] getSeatFiles() {
+		return seatFiles;
+	}
+
+	public void setSeatFiles(String[] seatFiles) {
+		this.seatFiles = seatFiles;
+	}
+
+	public String getTtr_ss() {
+		return ttr_ss;
+	}
+
+	public void setTtr_ss(String ttr_ss) {
+		this.ttr_ss = ttr_ss;
+	}
+
 	public String[] getFiles() {
 		return files;
 	}
@@ -116,6 +145,9 @@ public class TheaterVORequest {
 		this.ttr_content = ttr_content;
 	}
 
+	
+	
+
 	@Override
 	public String toString() {
 		return "TheaterVORequest [ttr_no=" + ttr_no + ", com_id=" + com_id
@@ -123,7 +155,10 @@ public class TheaterVORequest {
 				+ ", ttr_date=" + ttr_date + ", ttr_sdate=" + ttr_sdate
 				+ ", ttr_edate=" + ttr_edate + ", ttr_place=" + ttr_place
 				+ ", ttr_time=" + ttr_time + ", ttr_alert=" + ttr_alert
-				+ ", ttr_content=" + ttr_content + "]";
+				+ ", ttr_content=" + ttr_content + ", thumFiles="
+				+ Arrays.toString(thumFiles) + ", seatFiles="
+				+ Arrays.toString(seatFiles) + ", files="
+				+ Arrays.toString(files) + ", ttr_ss=" + ttr_ss + "]";
 	}
 
 	public TheaterVO toTheaterVO() {
@@ -137,6 +172,10 @@ public class TheaterVORequest {
 		tv.setTtr_alert(ttr_alert);
 		tv.setTtr_content(ttr_content);
 		tv.setFiles(files);
+		tv.setTtr_ss(ttr_ss);
+		tv.setSeatFiles(seatFiles);
+		tv.setThumFiles(thumFiles);
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 		try {

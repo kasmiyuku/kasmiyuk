@@ -22,16 +22,23 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 	
 	@Override
 	public void createTheater(TheaterVO theater) throws SQLException {
+		
+		System.out.println(theater);
+		
 		theaterDAO.insertTheater(theater);
-		
-		String[] files=theater.getFiles();
-		
+			
 		int ttr_no=theaterDAO.selectMaxtno();
 		
-		if(files==null) return;
-		for(String fileName:files){
-			theaterDAO.insertAttach(fileName, ttr_no);
+		for(String fullName:theater.getThumFiles()){
+			theaterDAO.insertAttach(fullName, ttr_no, 1);
 		}
+		for(String fullName:theater.getSeatFiles()){
+			theaterDAO.insertAttach(fullName, ttr_no, 2);		
+		}
+		for(String fullName:theater.getFiles()){
+			theaterDAO.insertAttach(fullName, ttr_no, 3);
+		}		
+		
 		
 	}
 
@@ -44,7 +51,7 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 		String[] files=theater.getFiles();
 		if(files==null) {return;}
 		for(String fileName:files){
-			theaterDAO.insertAttach(fileName, ttr_no);
+			//theaterDAO.insertAttach(fileName, ttr_no);
 		}
 	}
 

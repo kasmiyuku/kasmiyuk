@@ -53,7 +53,7 @@
 						<h3 class="box-title">연극</h3>
 					</div>
 
-					<form role="form" action="theatercreate" method="post">
+					<form role="form" id="registerForm" action="theatercreate" method="post">
 
 						<input type="hidden" name='page' value="${cri.page }" /> 
 						<input type="hidden" name='perPageNum' value="${cri.perPageNum }" />
@@ -122,7 +122,7 @@
 						</div>
 						<div class="box-footer">
 						
-							<button type="submit" class="btn btn-primary">저장</button>
+							<button  type="submit" class="btn btn-primary">저장</button>
 						</div>
 					</form>
 
@@ -155,8 +155,8 @@
 		event.preventDefault();
 	});
 	
-	$(".fileDrop").on("drop",function(event){
-		//event.preventDefault();
+	$(".fileDrop,.fileDrop1,.fileDrop2").on("drop",function(event){
+		event.preventDefault();
 		
 		var files = event.originalEvent.dataTransfer.files;
 		var file=files[0];
@@ -165,6 +165,8 @@
 		
 		var formData=new FormData();
 		formData.append("file",file);
+		
+		var uploadZone=$(this).find("ul");
 		
 		$.ajax({
 			url:"/uploadAjax",
@@ -175,8 +177,8 @@
 			dataType:'text',
 			success:function(data){
 				var fileInfo=getFileInfo(data);
-				var html=template(fileInfo);
-				$(".uploadedList").append(html);
+				var html=template(fileInfo);				
+				uploadZone.append(html);
 				
 			}		
 			
@@ -190,141 +192,15 @@
 		var that=$(this);
 		var str="";
 		$('.uploadedList .delbtn').each(function(index){
-			str+="<input type='hidden' name='files'"
+			str+="<input type='hidden' name='thumFiles'"
 			+"value='"+$(this).attr('href')+"'>";
 		});
 		
-		that.append(str);
-		that.get(0).submit();
-	});
-	
-	$('.uploadedList').on('click','.delbtn',function(event){
-		event.preventDefault();
-		
-		var that=$(this);
-		
-		$.ajax({
-			url:'/deleteFile',
-			type:'post',
-			dataType:'text',
-			data:{fileName:$(this).attr("href")},
-			success:function(result){
-				if(result=='deleted'){
-					that.parent('div').parent('li').remove();
-				}
-			}
-		});
-	});
-	$("body").on("dragenter dragover",function(event){
-		event.preventDefault();
-	});
-	
-	$("body").on("drop",function(event){
-		event.preventDefault();
-	});
-	
-	$(".fileDrop1").on("drop",function(event){
-		//event.preventDefault();
-		
-		var files = event.originalEvent.dataTransfer.files;
-		var file=files[0];
-		
-		//alert(file);
-		
-		var formData=new FormData();
-		formData.append("file",file);
-		
-		$.ajax({
-			url:"/uploadAjax",
-			type:"post",
-			data:formData,
-			processData:false,
-			contentType:false,
-			dataType:'text',
-			success:function(data){
-				var fileInfo=getFileInfo(data);
-				var html=template(fileInfo);
-				$(".uploadedList1").append(html);
-				
-			}		
-			
-		});
-		
-	});
-	
-	$('#registerForm').submit(function(event){
-		event.preventDefault();
-		
-		var that=$(this);
-		var str="";
 		$('.uploadedList1 .delbtn').each(function(index){
-			str+="<input type='hidden' name='files'"
+			str+="<input type='hidden' name='seatFiles'"
 			+"value='"+$(this).attr('href')+"'>";
 		});
 		
-		that.append(str);
-		that.get(0).submit();
-	});
-	
-	$('.uploadedList1').on('click','.delbtn',function(event){
-		event.preventDefault();
-		
-		var that=$(this);
-		
-		$.ajax({
-			url:'/deleteFile',
-			type:'post',
-			dataType:'text',
-			data:{fileName:$(this).attr("href")},
-			success:function(result){
-				if(result=='deleted'){
-					that.parent('div').parent('li').remove();
-				}
-			}
-		});
-	});
-	$("body").on("dragenter dragover",function(event){
-		event.preventDefault();
-	});
-	
-	$("body").on("drop",function(event){
-		event.preventDefault();
-	});
-	
-	$(".fileDrop2").on("drop",function(event){
-		//event.preventDefault();
-		
-		var files = event.originalEvent.dataTransfer.files;
-		var file=files[0];
-		
-		//alert(file);
-		
-		var formData=new FormData();
-		formData.append("file",file);
-		
-		$.ajax({
-			url:"/uploadAjax",
-			type:"post",
-			data:formData,
-			processData:false,
-			contentType:false,
-			dataType:'text',
-			success:function(data){
-				var fileInfo=getFileInfo(data);
-				var html=template(fileInfo);
-				$(".uploadedList2").append(html);
-				
-			}		
-			
-		});
-		
-	});
-	
-	$('#registerForm').submit(function(event){
-		event.preventDefault();
-		
-		var that=$(this);
-		var str="";
 		$('.uploadedList2 .delbtn').each(function(index){
 			str+="<input type='hidden' name='files'"
 			+"value='"+$(this).attr('href')+"'>";
@@ -334,7 +210,7 @@
 		that.get(0).submit();
 	});
 	
-	$('.uploadedList2').on('click','.delbtn',function(event){
+	$('.uploadedList,.uploadedList1,.uploadedList2').on('click','.delbtn',function(event){
 		event.preventDefault();
 		
 		var that=$(this);
@@ -351,6 +227,11 @@
 			}
 		});
 	});
+	
+	
+	
+	
+	
 </script>
 </body>
 </html>

@@ -16,16 +16,23 @@ public class TheaterVO {
 	private String ttr_alert;
 	private String ttr_content;
 	
+	private String[] thumFiles; // 썸네일 이미지
+	private String[] seatFiles; // 좌석배치 이미지
+	private String[] files; //첨부파일
+	
 	private String ttr_ss;
 	
-	private String[] files;
+	
 	
 	public TheaterVO(){}
+
+	
 
 	public TheaterVO(int ttr_no, String com_id, String ttr_cat,
 			String ttr_title, Date ttr_date, Date ttr_sdate, Date ttr_edate,
 			String ttr_place, String ttr_time, String ttr_alert,
-			String ttr_content, String ttr_ss, String[] files) {
+			String ttr_content, String[] thumFiles, String[] seatFiles,
+			String[] files, String ttr_ss) {
 		super();
 		this.ttr_no = ttr_no;
 		this.com_id = com_id;
@@ -38,9 +45,13 @@ public class TheaterVO {
 		this.ttr_time = ttr_time;
 		this.ttr_alert = ttr_alert;
 		this.ttr_content = ttr_content;
-		this.ttr_ss = ttr_ss;
+		this.thumFiles = thumFiles;
+		this.seatFiles = seatFiles;
 		this.files = files;
+		this.ttr_ss = ttr_ss;
 	}
+
+
 
 	public int getTtr_no() {
 		return ttr_no;
@@ -145,8 +156,32 @@ public class TheaterVO {
 	public void setFiles(String[] files) {
 		this.files = files;
 	}
-
 	
+	
+	public String[] getThumFiles() {
+		return thumFiles;
+	}
+
+
+
+	public void setThumFiles(String[] thumFiles) {
+		this.thumFiles = thumFiles;
+	}
+
+
+
+	public String[] getSeatFiles() {
+		return seatFiles;
+	}
+
+
+
+	public void setSeatFiles(String[] seatFiles) {
+		this.seatFiles = seatFiles;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "TheaterVO [ttr_no=" + ttr_no + ", com_id=" + com_id
@@ -154,11 +189,15 @@ public class TheaterVO {
 				+ ", ttr_date=" + ttr_date + ", ttr_sdate=" + ttr_sdate
 				+ ", ttr_edate=" + ttr_edate + ", ttr_place=" + ttr_place
 				+ ", ttr_time=" + ttr_time + ", ttr_alert=" + ttr_alert
-				+ ", ttr_content=" + ttr_content + ", ttr_ss=" + ttr_ss
-				+ ", files=" + Arrays.toString(files) + "]";
+				+ ", ttr_content=" + ttr_content + ", thumFiles="
+				+ Arrays.toString(thumFiles) + ", seatFiles="
+				+ Arrays.toString(seatFiles) + ", files="
+				+ Arrays.toString(files) + ", ttr_ss=" + ttr_ss + "]";
 	}
 
 
+
+	
 
 	
 	

@@ -65,15 +65,18 @@ public class TheaterDAOImpl implements TheaterDAO {
 	}
 
 	@Override
-	public void insertAttach(String fullName, int ttr_no) throws SQLException {
+	public void insertAttach(String fullName, int ttr_no, int file_kind) throws SQLException {
 
 		Map<String,Object> paramMap=new HashMap<String,Object>();
 		paramMap.put("fullName", fullName);
 		paramMap.put("ttr_no", ttr_no);
+		paramMap.put("file_kind", file_kind);
+		
 		
 		sqlSession.update(NAMESPACE+".insertAttach",paramMap);
 		
 	}
+	
 
 	@Override
 	public int selectMaxtno() throws SQLException {
@@ -91,7 +94,9 @@ public class TheaterDAOImpl implements TheaterDAO {
 			sqlSession.update(NAMESPACE+".deleteAttach",ttr_no);
 	}
 
-	@Override
+	
+
+	/*@Override
 	public void replaceAttach(String fullName, int ttr_no) throws SQLException {
 			Map<String,Object> paraMap=new HashMap<String,Object>();
 			
@@ -100,5 +105,5 @@ public class TheaterDAOImpl implements TheaterDAO {
 			
 			sqlSession.update(NAMESPACE+".replaceAttach",paraMap);
 	}
-
+sss*/
 }

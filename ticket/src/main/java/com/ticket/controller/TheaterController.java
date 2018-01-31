@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,7 +88,7 @@ public class TheaterController {
 	
 	@RequestMapping(value="/theatercreate", method=RequestMethod.POST)
 	public String thearterCreate(TheaterVORequest ttr)throws Exception{
-		TheaterVO theater = ttr.toTheaterVO();
+		TheaterVO theater = ttr.toTheaterVO();		
 		theaterServiceDAO.createTheater(theater);
 		return "redirect:/theaterlistpage";
 	}
@@ -156,15 +157,14 @@ public class TheaterController {
 		InputStream in=null;
 		ResponseEntity<byte[]> entity=null;
 		
+		
 		try{
 		String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 		MediaType mType=MediaUtils.getMediaType(formatName);
 		HttpHeaders headers=new HttpHeaders();
 		
 		fileName=fileName.replace('/', File.separatorChar);
-		System.out.println("!!!!!!!!!!!!"+uploadPath+fileName);
-		in=new FileInputStream(uploadPath+fileName);
-		
+		in = new FileInputStream(uploadPath+fileName);
 		if(mType!=null){
 			headers.setContentType(mType);
 		}else{

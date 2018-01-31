@@ -54,7 +54,7 @@
 
 								<tr>
 									<td>${TheaterVO.ttr_no}</td>
-									<td><img src="/displayFile?fileName=${TheaterVO.ttr_ss}"></td>
+									<td><img src="/displayFile?fileName=${TheaterVO.thumFiles}"></td>
 									<td>${TheaterVO.ttr_cat}</td>
 									<td><a href='theaterReadpage${page.makeQuery(page.cri.page) }&ttr_no=${TheaterVO.ttr_no}'>${TheaterVO.ttr_title}</a></td>
 									<td>${TheaterVO.com_id}</td>

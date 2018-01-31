@@ -4,8 +4,10 @@
 <mapper namespace="TheaterMapper">
 
 	<update id="insertTheater">
-		insert into theater (ttr_no, com_id, ttr_cat, ttr_title,ttr_sdate, ttr_edate , ttr_place, ttr_time, ttr_alert, ttr_content)
-		values(theater_seq.nextval, #{com_id}, #{ttr_cat}, #{ttr_title},#{ttr_sdate},#{ttr_edate}, #{ttr_place}, #{ttr_time}, #{ttr_alert}, #{ttr_content})
+		insert into theater 
+		(ttr_no, com_id, ttr_cat, ttr_title,ttr_sdate, ttr_edate , ttr_place, ttr_time, ttr_alert, ttr_content)
+		values
+		(theater_seq.nextval, #{com_id}, #{ttr_cat}, #{ttr_title},#{ttr_sdate},#{ttr_edate}, #{ttr_place}, #{ttr_time}, #{ttr_alert}, #{ttr_content})
 	</update>
 
 	<select id="selectTheaterBytno" resultType="theater">
@@ -37,9 +39,10 @@
 		 	
 	 
 	</select>
+	
 	<update id="insertAttach">
-		insert into file_tbl(file_id,file_name,ttr_no)
-		values(#{file_id},#{file_name},#{ttr_no})
+		insert into file_tbl(file_id,file_name,ttr_no,file_kind)
+		values(file_seq.nextval,#{fullName},#{ttr_no},#{file_kind})
 	</update>
 	<select id="selectMaxtno" resultType="int">
 		select max(ttr_no) from theater
@@ -48,7 +51,7 @@
 		select file_name
 		from file_tbl
 		where ttr_no=#{ttr_no}
-		order by file_id
+		order by file_kind
 	</select>
 	<update id="deleteAttach">
 		delete from file_tbl
