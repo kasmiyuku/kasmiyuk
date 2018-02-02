@@ -8,6 +8,11 @@ import java.util.List;
 
 
 
+
+
+
+
+
 import com.ticket.dao.TheaterDAO;
 import com.ticket.domain.Criteria;
 import com.ticket.domain.TheaterVO;
@@ -78,6 +83,12 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 	public List<TheaterVO> readTheaterListCriteria(Criteria cri)
 			throws SQLException {
 			List<TheaterVO> theaterList=theaterDAO.selectTheaterListCriteria(cri);
+			
+			for(TheaterVO theater:theaterList){
+				theater.setThumFiles(theaterDAO.selectAttachThum(theater.getTtr_no()));
+				theater.setSeatFiles(theaterDAO.selectAttachSeat(theater.getTtr_no()));
+				theater.setFiles(theaterDAO.selectAttachFile(theater.getTtr_no()));
+			}
 		return theaterList;
 	}
 
@@ -86,12 +97,11 @@ public class TheaterServiceDAOImpl implements TheaterServiceDAO {
 	@Override
 	public List<String> getAttach(int ttr_no)
 			throws SQLException {
-		List<String> fileNames=theaterDAO.selctAttach(ttr_no);
-							
-		
-		
-				
+		List<String> fileNames=theaterDAO.selctAttachAll(ttr_no);			
 		return fileNames;
 	}
+
+
+	
 
 }

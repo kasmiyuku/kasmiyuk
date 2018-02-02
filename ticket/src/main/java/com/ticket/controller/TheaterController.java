@@ -97,6 +97,7 @@ public class TheaterController {
 	public String removePage(int ttr_no)throws Exception{
 			String url="redirect:/theaterlistpage";
 			theaterServiceDAO.deleteTheater(ttr_no);
+			
 		return url;
 	}
 	
@@ -164,7 +165,6 @@ public class TheaterController {
 		HttpHeaders headers=new HttpHeaders();
 		
 		fileName=fileName.replace('/', File.separatorChar);
-		System.out.println("!!!!!!!!!!"+fileName);
 		in = new FileInputStream(uploadPath+fileName);
 		if(mType!=null){
 			headers.setContentType(mType);
@@ -222,6 +222,8 @@ public class TheaterController {
 	@RequestMapping("/getAttach/{ttr_no}")
 	@ResponseBody
 	public List<String> getAttach(@PathVariable("ttr_no")int ttr_no)throws Exception{
+		
+		
 		return theaterServiceDAO.getAttach(ttr_no);
 	}
 }

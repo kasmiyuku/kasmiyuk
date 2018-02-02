@@ -83,15 +83,41 @@ public class TheaterDAOImpl implements TheaterDAO {
 		return (Integer)sqlSession.selectOne(NAMESPACE+".selectMaxtno",null);
 	}
 
-	@Override
-	public List<String> selctAttach(int ttr_no) throws SQLException {
-			List<String> files=sqlSession.selectList(NAMESPACE+".selectAttach", ttr_no);
-		return files;
-	}
 
 	@Override
 	public void deleteAttach(int ttr_no) throws SQLException {
 			sqlSession.update(NAMESPACE+".deleteAttach",ttr_no);
+	}
+	@Override
+	public List<String> selctAttachAll(int ttr_no) throws SQLException {
+		List<String> files=sqlSession.selectList(NAMESPACE+".selectAttachAll", ttr_no);
+		return files;
+	}
+
+	@Override
+	public String[] selectAttachThum(int ttr_no) throws SQLException {
+		List<String> files=sqlSession.selectList(NAMESPACE+".selectAttachThum", ttr_no);
+		String[] thumFiles=new String[files.size()];
+		files.toArray(thumFiles);
+		return thumFiles;
+	}
+
+	
+
+	@Override
+	public String[] selectAttachSeat(int ttr_no) throws SQLException {
+		List<String> files=sqlSession.selectList(NAMESPACE+".selectAttachSeat", ttr_no);
+		String[] seatFiles=new String[files.size()];
+		files.toArray(seatFiles);
+		return seatFiles;
+	}
+
+	@Override
+	public String[] selectAttachFile(int ttr_no) throws SQLException {
+		List<String> files=sqlSession.selectList(NAMESPACE+".selectAttachFile", ttr_no);
+		String[] tFiles=new String[files.size()];
+		files.toArray(tFiles);
+		return tFiles;
 	}
 
 	

@@ -156,7 +156,7 @@
 	});
 	
 	$(".fileDrop,.fileDrop1,.fileDrop2").on("drop",function(event){
-		event.preventDefault();
+		//event.preventDefault();
 		
 		var files = event.originalEvent.dataTransfer.files;
 		var file=files[0];

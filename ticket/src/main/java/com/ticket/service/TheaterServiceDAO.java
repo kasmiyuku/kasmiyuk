@@ -24,4 +24,6 @@ public interface TheaterServiceDAO {
 	
 	
 	List<String> getAttach(int ttr_no)throws SQLException;
+
+	
 }

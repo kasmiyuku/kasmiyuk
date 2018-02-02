@@ -108,9 +108,12 @@
 							<label for="exampleInputEmail1">내용</label> <textarea 
 							name='ttr_content' class="form-control" rows="3" readonly="readonly">${TheaterVO.ttr_content}</textarea>	
 						</div>
-						<ul class="mailbox-attachments clearfix uploadedList" ></ul>
 					</div>
-				
+					<div >
+					
+					
+					<ul class="mailbox-attachments clearfix uploadedList" ></ul>
+					</div>
 					<div class="box-footer">
 					
 						<button  type="submit" class="btn btn-warning">수정</button>
@@ -162,13 +165,13 @@ $(document).ready(function(){
 		}
 		
 		
-		formObj.attr("action", "removePage");
+		formObj.attr("action", "removepage");
 		formObj.submit();
 	});
 
 	$(".btn-primary").on("click", function() {
 		formObj.attr("method", "get");
-		formObj.attr("action", "list");
+		formObj.attr("action", "theaterlistpage");
 		formObj.submit();
 	});
 	

@@ -16,11 +16,27 @@
 <style type="text/css">
 	.fileDrop{
 		width:80%;
+		height:120px;
+		border:1px dotted gray;
+		background-color:lightslategray;
+		margin:auto;
+	}
+	.fileDrop1{
+		width:80%;
 		height:100px;
 		border:1px dotted gray;
 		background-color:lightslategray;
 		margin:auto;
 	}
+	
+	.fileDrop2{
+		width:80%;
+		height:100px;
+		border:1px dotted gray;
+		background-color:lightslategray;
+		margin:auto;
+	}
+	
 
 	.popup{
 		position:absolute;
@@ -47,6 +63,7 @@
 		margin:200px auto;
 		overflow:hidden;
 	}
+
 </style>
 </head>
 <body>
@@ -116,7 +133,17 @@
 					</div>
 						
 					</form>
-					
+					<div class="form-group">
+							<label >썸네일</label>
+						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList"></ul></div>													
+						</div>
+						<div class="form-group">
+							<label >좌석배치도</label>
+						<div class="fileDrop1"><ul class="mailbox-attachments clearfix uploadedList1"></ul></div>													
+						</div>
+						<div class="form-group">
+							<label >파일첨부</label>
+							<div class="fileDrop2"><ul class="mailbox-attachments clearfix uploadedList2"></ul></div>	
 					<div class="box-footer">
 						<button type="submit" class="btn btn-warning">수정</button>
 						<button type="submit" class="btn btn-primary">취소</button>
@@ -170,7 +197,7 @@
 		event.preventDefault();
 	});
 
-	$('.fileDrop').on('drop',function(event){
+	$('.fileDrop,.fileDrop1,.fileDrop2').on('drop',function(event){
 		var files=event.originalEvent.dataTransfer.files;
 		var file=files[0];
 		
@@ -178,6 +205,7 @@
 		
 		formData.append("file",file);
 		
+		var uploadZone=$(this).find("ul");
 		$.ajax({
 			url:'/uploadAjax',
 			data:formData,
@@ -188,7 +216,7 @@
 			success:function(result){
 				var fileInfo=getFileInfo(result);
 				var html=template(fileInfo);
-				$(".uploadedList").append(html);
+				uploadZone.append(html);
 			}
 		});
 	});
@@ -200,6 +228,18 @@
 		var that=$(this);
 		that.parent('div').parent('li').remove();
 		
+		$('.uploadedList1').on('click','.delbtn',function(event){
+			event.preventDefault();
+			
+			var that=$(this);
+			that.parent('div').parent('li').remove();
+			
+			$('.uploadedList2').on('click','.delbtn',function(event){
+				event.preventDefault();
+				
+				var that=$(this);
+				that.parent('div').parent('li').remove();
+				
 		/* $.ajax({
 			url:'/deleteFile',
 			type:'post',
@@ -225,8 +265,8 @@
 		});
 	});
 
-
-	$('.uploadedList').on('click','.mailbox-attachment-info a',function(event){
+/* 
+	$('.uploadedList,.uploadedList1,.uploadedList2').on('click','.mailbox-attachment-info a',function(event){
 			
 		var fileLink=$(this).attr("href");
 		
@@ -243,7 +283,7 @@
 
 	$('#popup_img').on('click',function(){
 		$('.popup').hide("slow");
-	});
+	}); */
 
 
 
@@ -262,13 +302,24 @@
 				
 				var str="";
 				$('.uploadedList .delbtn').each(function(index){
-					str+="<input type='hidden' name='files' value='"
-					+$(this).attr("href")+"'/>";
+					str+="<input type='hidden' name='thumFiles'"
+					+"value='"+$(this).attr('href')+"'>";
 				});
+				
+				$('.uploadedList1 .delbtn').each(function(index){
+					str+="<input type='hidden' name='seatFiles'"
+					+"value='"+$(this).attr('href')+"'>";
+				});
+				
+				$('.uploadedList2 .delbtn').each(function(index){
+					str+="<input type='hidden' name='files'"
+					+"value='"+$(this).attr('href')+"'>";
+				});
+				
+
 				that.append(str);
 				that.get(0).submit();
-			});
-
+			})
 			
 		});
 </script>

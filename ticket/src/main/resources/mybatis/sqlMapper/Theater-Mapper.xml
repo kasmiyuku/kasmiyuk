@@ -23,11 +23,9 @@
 		 ttr_time =#{ttr_time}, ttr_alert =#{ttr_alert}, ttr_content =#{ttr_content}
 		where ttr_no = #{ttr_no}
 	</update>
-
 	<update id="deleteTheater">
 		delete from theater where ttr_no = #{ttr_no}
 	</update>
-
 	<select id="selectTheaterList" resultType="theater">
 	 	<![CDATA[	
 	 		select
@@ -36,8 +34,6 @@
 			where ttr_no > 0 
 		 	order by ttr_no desc, ttr_date desc
 	 	]]>
-		 	
-	 
 	</select>
 	
 	<update id="insertAttach">
@@ -47,11 +43,26 @@
 	<select id="selectMaxtno" resultType="int">
 		select max(ttr_no) from theater
 	</select>
-	<select id="selectAttach" resultType="str">
+	<select id="selectAttachAll" resultType="str">
 		select file_name
 		from file_tbl
 		where ttr_no=#{ttr_no}
 		order by file_kind
+	</select>
+	<select id="selectAttachThum" resultType="str">
+		select file_name
+		from file_tbl
+		where ttr_no=#{ttr_no} and file_kind=1		
+	</select>
+	<select id="selectAttachSeat" resultType="str">
+		select file_name 
+		from file_tbl
+		where ttr_no=#{ttr_no} and file_kind=2		
+	</select>
+	<select id="selectAttachFile" resultType="str">
+		select file_name 
+		from file_tbl
+		where ttr_no=#{ttr_no} and file_kind=3		
 	</select>
 	<update id="deleteAttach">
 		delete from file_tbl
