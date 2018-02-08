@@ -25,10 +25,17 @@ public interface TheaterDAO {
 	void insertAttach(String fullName,int ttr_no,int file_kind)throws SQLException;
 	
 	int selectMaxtno()throws SQLException;
+	
+	//이미지목록
 	List<String> selctAttachAll(int ttr_no)throws SQLException;
-	void deleteAttach(int ttr_no)throws SQLException;
+	
+	//이미지삭제
+	int deleteAttachAll(int ttr_no)throws SQLException;
+	
+	//이미지 배열
 	String[] selectAttachThum(int ttr_no)throws SQLException;
 	String[] selectAttachSeat(int ttr_no)throws SQLException;
 	String[] selectAttachFile(int ttr_no)throws SQLException;
 	/*void replaceAttach(String fullName,int ttr_no)throws SQLException;*/
+	
 }

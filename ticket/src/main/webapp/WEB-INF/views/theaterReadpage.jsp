@@ -33,13 +33,22 @@
 		margin:200px auto;
 		overflow:hidden;
 	}
+	.uploadedList ul {
+		overflow:hidden;
+	}
+	.uploadedList li{
+		list-style-type:none;
+		float:left;
+		margin-left:10px;
+		
+	}
 </style>
 	
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -179,12 +188,15 @@ $(document).ready(function(){
 	var template=Handlebars.compile($('#templateAttach').html());
 	
 	$.getJSON("/getAttach/"+ttr_no,function(list){
-		$(list).each(function(){
-			var fileInfo=getFileInfo(this);
-			
-			var html=template(fileInfo);
-			$(".uploadedList").append(html);
-		});
+		var title=["썸네일","좌석이미지","첨부파일"];
+		for(var i=0;i<list.length;i++){
+			$(".uploadedList").append("<h2>"+title[i]+"</h2>");
+			$(list[i]).each(function(){
+				var fileInfo=getFileInfo(this);			
+				var html=template(fileInfo);			
+				$(".uploadedList").append("<ul>"+html+"</ul>");
+			});
+		}
 	});
 	
 	$('.uploadedList').on('click','.mailbox-attachment-info a',function(event){
@@ -211,6 +223,194 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-success">
+					<div class="box-header">
+						<h3 class="box-title">평점쓰기</h3>
+					</div>
+					<div class="box-body">
+						<label for="newReplyWriter">아이디</label>
+						<input class="form-control" type='text' placeholder="ISER ID" id="newReplyWriter"/>
+						<label for="newReplyText">내용</label>
+						<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText"/>
+					</div>
+					<div>
+						<div class="box-footer">
+							<button type="button" class="btn btn-primary" id="replyAddbtn">확인</button>
+						</div>
+					</div>
+					<ul class="timeline">
+						<li class="time-label" id="repliesDiv">
+							<span class="bg-green">리스트</span>
+					</ul>
+					<div class="text-center">
+						<ul id="pagination" class="pagination pagination-sm no-marg">
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div id="modifyModal" class="modal modal-primary fade" role="dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h4 class="model-title"></h4>
+					</div>
+					<div class="modal-body" data-rno>
+						<p>
+							<input type="text" id="replytext" class="form-control">
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-info" id="replymodBtn">수정</button>
+						<button type="button" class="btn btn-danger" id="replyDelBtn">삭제</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+	<script id="template" type="text/x-handlebars-template">
+	{{#each .}}
+		<li class="replyLi" data-tr_rno={{tr_rno}}>
+			<i class="fa fa-comments bg-blue"></i>
+			<div class="timeline-item">
+				<span class="time">
+					<i class="fa fa-clock-o"></i>{{prettifyDate regdate}}
+				</span>
+				<h3 class="timeline-header"><strong>{{tr_rno}}</strong>-{{replyer}}</h3>
+				<div class="timeline-body">{{replytext}}</div>
+				<div class="timeline-footer">
+					<a class="btn btn-primary" btn-xs" data-toggle="modal" data="#modifyModal">Modify</a>
+				</div>
+			</div>
+		</li>
+	{{/each}}
+	</script>
+	<script>
+		Handlebars.registerHelper("prettifyDate", function(timeValue){
+				var dateObj=new Date(timeValue);
+				var year=dateObj.getFullyear();
+				var month=dateObj.getMonth();
+				var date=dateObj.getDate();
+				return year+"/"+month+"/"+date;
+		});
+		
+		var printData=function(replayArr, target, temlpateObject){
+			var template=Handlebars.compile(templateObject.html());
+			var html=template(replyArr);
+			$('.replyLi').remove();
+			target.after(html);
+		};
+		
+		var ttr_no=${TheaterVO.ttr_no};
+		var replyPage=1;
+		
+		function getPage(pageInfo){
+			$.getjSON(pageInfo,function(data){
+				printData(data.list,$('#repliesDiv'),$('#template'));
+				printPaging(data.page,$('.pagination'));
+			});
+		};
+		
+		getPage("/replies/"+ttr_no+"/1");
+		
+		var printPaging=function(page,target){
+			var str="";
+			if(page.prev){
+				str+="<li><a href='"+(page.startPage-1)+"'> << </a></li>";
+			};
+			for(var i=page.startPage,len=page.endPage;i<=len;i++){
+				var strClass=page.cri.page==i?'class=active':'';
+				str+="<li "+strClass+"><a href='"+i+"'>"+i+"</a></li>";
+			};
+			if(page.next){
+				str+="<li><a href='"+(page.endPage+1)+"'> >> </a></li>";
+			};
+			target.html(str);
+		};
+		$('.pagination').on('click','li a',function(event){
+			event.preventDefault();
+			replyPage=$(this).attr('href');
+			getPage("/replies/"+ttr_no+"/"+replyPage)
+		});
+		$('#replyAddbtn').on('click',function(event){
+			var replyer=$('#newReplyWriter').val();
+			var replytext=$('#newReplyText').val();
+			
+			$.ajax({
+				type:'post',
+				url:'/replies',
+				headers:{
+					"Content-Type":"application/json",
+					"X-HTTP-Method-Override":"post"
+				},
+				dataType:'text',
+				data:JSON.stringify({
+					ttr_no:ttr_no,
+					replyer:replytext
+				}),
+				success:function(data){
+					if(data=='SUCCESS'){
+						alert('평점을 남겨주셔서 감사합니다.');
+						replyPage=1;
+						getPage("/replies/"+ttr_no+"/"+replyPage);
+						$('#newReplyWriter').val("");
+						$('#new ReplyText').val("");
+					}
+				}
+			});
+		});
+		$('.timeline').on('click','.replyLi',function(event){
+			var reply=$(this);
+			$('#replytext').val(reply.find('.timeline-body').text());
+			$('.modal-title').html(reply.attr('data-tr_rno'));
+		});
+		$('#replyModBtn').on('click',function(){
+			var tr_rno=$('modal-title').html();
+			var replytext=$('#replytext').val();
+			$.ajax({
+				type:'put',
+				url:"/replies/"+tr_rno,
+				headers:{
+					"Content-Type":"application/json",
+					"X-HTTP-Method-Override":"PUT"
+				},
+				data:JSON.stringify({replytext:replytext}),
+				dateType:'text',
+				success:function(result){
+					if(result=='SUCCESS'){
+						alert("평점을 재평가 해주셔서 감사합니다.");
+						$('#modifyModal').modal('hide');
+						getPage("/replies"+ttr_no+"/"+replyPage);
+					}
+				}
+			});
+		});
+		
+		$('#replyDelBtn').on('click',function(){
+			var tr_rno=$('.modal-title').html();
+			
+			$.ajax({
+				type:'delete',
+				url:"/replies/"+tr_rno,
+				headers:{
+					"Content-Type":"application/json",
+					"X-HTTP-Method-Override":"DELETE"
+				},
+				dataType:"text",
+				success:function(result){
+					if(result='SUCCESS'){
+						alert("삭제됬습니다.");
+						$('#modifyModal').modal('hide');
+						getPage("replies/"+ttr_no+"/"+replyPage);
+					}
+				}
+			});
+		});
+	</script>
 </body>
 </html>

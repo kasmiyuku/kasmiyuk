@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +31,7 @@ import com.ticket.domain.Criteria;
 import com.ticket.domain.Page;
 import com.ticket.domain.TheaterVO;
 import com.ticket.domain.TheaterVORequest;
-import com.ticket.service.TheaterServiceDAO;
+import com.ticket.service.TheaterService;
 import com.ticket.utils.MediaUtils;
 import com.ticket.utils.UploadFileUtils;
 
@@ -42,7 +41,8 @@ import com.ticket.utils.UploadFileUtils;
 public class TheaterController {
 	
 	@Autowired
-	private TheaterServiceDAO theaterServiceDAO;
+	private TheaterService theaterServiceDAO;
+	
 	
 	@RequestMapping(value="/theater", method=RequestMethod.GET)
 	public String theater(Model model) throws Exception{
@@ -112,6 +112,7 @@ public class TheaterController {
 	@RequestMapping(value="/modifypage", method=RequestMethod.POST)
 	public String modifyPage(TheaterVORequest ttr,Criteria cri,RedirectAttributes rttr)throws Exception{
 			TheaterVO theater = ttr.toTheaterVO();
+			System.out.println(theater);
 			theaterServiceDAO.updateTheater(theater);
 			
 			rttr.addAttribute("page",cri.getPage());
@@ -221,10 +222,11 @@ public class TheaterController {
 	}
 	@RequestMapping("/getAttach/{ttr_no}")
 	@ResponseBody
-	public List<String> getAttach(@PathVariable("ttr_no")int ttr_no)throws Exception{
-		
-		
+	public List<String[]> getAttach(@PathVariable("ttr_no")int ttr_no)throws Exception{
+				
 		return theaterServiceDAO.getAttach(ttr_no);
 	}
+	//댓글부분
+	
 }
 

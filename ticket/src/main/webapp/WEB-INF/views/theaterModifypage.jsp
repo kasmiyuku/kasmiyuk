@@ -11,7 +11,7 @@
 <title></title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <style type="text/css">
 	.fileDrop{
@@ -62,6 +62,16 @@
 		height:50%;
 		margin:200px auto;
 		overflow:hidden;
+	}
+	
+	.form-group ul {
+		overflow:hidden;
+	}
+	.form-group li{
+		list-style-type:none;
+		float:left;
+		margin-left:10px;
+		
 	}
 
 </style>
@@ -134,8 +144,8 @@
 						
 					</form>
 					<div class="form-group">
-							<label >썸네일</label>
-						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList"></ul></div>													
+						<label >썸네일</label>
+						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList0"></ul></div>													
 						</div>
 						<div class="form-group">
 							<label >좌석배치도</label>
@@ -155,9 +165,9 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<script type="text/javascript" src="/resources/js/upload.js"></script>
-<script id="template" type="text/x-handlebars-template">
-<li style="width:10%;font-size:0.8em;">
+<script src="/resources/js/upload.js">XCVXC</script>
+<script id="templateAttach" type="text/x-handlebars-template">
+<li style="font-size:0.8em;">
 	<span class="mailbox-attachment-icon has-img">
       <img src="{{imgsrc}}" alt="Attachment"></span>
     <div class="mailbox-attachment-info">
@@ -169,6 +179,9 @@
 </li>
 </script>
 <script>
+
+	var ttr_no=${theaterVO.ttr_no};
+
 	$(document).ready(function() {
 
 		var formObj = $("form[role='form']");
@@ -187,7 +200,7 @@
 		});
 
 	});
-	var template = Handlebars.compile($('#template').html());
+	var template = Handlebars.compile($('#templateAttach').html());
 
 	$("body").on("dragenter dragover",function(event){
 		event.preventDefault();
@@ -220,50 +233,39 @@
 			}
 		});
 	});
+	
+	$.getJSON("/getAttach/"+ttr_no,function(list){		
+		for(var i=0;i<list.length;i++){			
+			$(list[i]).each(function(){
+				var fileInfo=getFileInfo(this);			
+				var html=template(fileInfo);			
+				$(".uploadedList"+i).append(html);
+			});
+		}
+	});
 
-
-	$('.uploadedList').on('click','.delbtn',function(event){
+	
+	$('.uploadedList0,.uploadedList1,.uploadedList2').on('click','.delbtn',function(event){
 		event.preventDefault();
-		
 		var that=$(this);
 		that.parent('div').parent('li').remove();
-		
-		$('.uploadedList1').on('click','.delbtn',function(event){
-			event.preventDefault();
 			
-			var that=$(this);
-			that.parent('div').parent('li').remove();
-			
-			$('.uploadedList2').on('click','.delbtn',function(event){
-				event.preventDefault();
-				
-				var that=$(this);
-				that.parent('div').parent('li').remove();
-				
-		/* $.ajax({
-			url:'/deleteFile',
-			type:'post',
-			data:{fileName:$(this).attr('href')},
-			dataType:'text',
-			success:function(result){
-				if(result=='deleted'){
-					that.parent('div').parent('li').remove();
+		$.ajax({
+				url:'/deleteFile',
+				type:'post',
+				data:{fileName:$(this).attr('href')},
+				dataType:'text',
+				success:function(result){
+					if(result=='deleted'){
+						that.parent('div').parent('li').remove();
+					}
 				}
-			}
-			
-		}); */
-		
+				
+		}); 
 	});
+	
 
-	var ttr_no=${theaterVO.ttr_no};
-
-	$.getJSON("/getAttach/"+ttr_no,function(list){
-		$(list).each(function(){
-			var fileInfo=getFileInfo(this);
-			var html=template(fileInfo);
-			$('.uploadedList').append(html);
-		});
-	});
+	
 
 /* 
 	$('.uploadedList,.uploadedList1,.uploadedList2').on('click','.mailbox-attachment-info a',function(event){
@@ -283,9 +285,8 @@
 
 	$('#popup_img').on('click',function(){
 		$('.popup').hide("slow");
-	}); */
-
-
+	});
+ */
 
 
 	$(document).ready(
@@ -301,7 +302,7 @@
 				var that=$(this);
 				
 				var str="";
-				$('.uploadedList .delbtn').each(function(index){
+				$('.uploadedList0 .delbtn').each(function(index){
 					str+="<input type='hidden' name='thumFiles'"
 					+"value='"+$(this).attr('href')+"'>";
 				});
@@ -319,11 +320,11 @@
 
 				that.append(str);
 				that.get(0).submit();
-			})
-			
+			});
 		});
+	
 </script>
-
+</div>
 				</div>
 			</div>
 		</div>

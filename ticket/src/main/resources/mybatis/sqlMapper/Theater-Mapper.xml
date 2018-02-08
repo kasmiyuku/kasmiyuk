@@ -64,8 +64,36 @@
 		from file_tbl
 		where ttr_no=#{ttr_no} and file_kind=3		
 	</select>
-	<update id="deleteAttach">
+	<update id="deleteAttachAll">
 		delete from file_tbl
 		where ttr_no=#{ttr_no}
 	</update>
+	
+	<select id="selectReplyList" resultType="reply">
+		select * from theater_reply
+		where ttr_no=#{ttr_no}
+		order by tr_rno desc
+	</select>
+	
+	<update id="insertReply" parameterType="reply">
+		insert into theater_reply(tr_rno,ttr_no,tr_content,mem_id)
+		values(reply_seq.nextval,#{ttr_no},#{tr_content},#{mem_id})
+	</update>
+	
+	<update id="updateReply" parameterType="reply">
+		update theater_reply set tr_content=#{replytext},
+		tr_update=sysdate
+		where tr_rno=#{tr_rno}
+	</update>
+	
+	<update id="deletReply" parameterType="int">
+		delete from theater_reply
+		where tr_rno=#{tr_rno}
+	</update>
+	
+	<select id="selectReplyListPage" resultType="reply">
+		select * from theater_reply
+		where ttr_no=#{ttr_no}
+		order by tr_rno desc
+	</select>
 </mapper>
