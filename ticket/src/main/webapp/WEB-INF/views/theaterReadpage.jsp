@@ -133,7 +133,7 @@
 <div id="popup_front" class='popup front' style="display:none;" >
 	<img id="popup_img" />
 </div>	
-					<script type="text/javascript" src="/resources/js/upload.js"></script>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
 
@@ -293,14 +293,14 @@ $(document).ready(function(){
 	<script>
 		Handlebars.registerHelper("prettifyDate", function(timeValue){
 				var dateObj=new Date(timeValue);
-				var year=dateObj.getFullyear();
+				var year=dateObj.getFullYear();
 				var month=dateObj.getMonth();
 				var date=dateObj.getDate();
 				return year+"/"+month+"/"+date;
 		});
 		
-		var printData=function(replayArr, target, temlpateObject){
-			var template=Handlebars.compile(templateObject.html());
+		var printData=function(replyArr, target, temlpateObject){
+			var template=Handlebars.compile(temlpateObject.html());
 			var html=template(replyArr);
 			$('.replyLi').remove();
 			target.after(html);
@@ -310,7 +310,7 @@ $(document).ready(function(){
 		var replyPage=1;
 		
 		function getPage(pageInfo){
-			$.getjSON(pageInfo,function(data){
+			$.getJSON(pageInfo,function(data){
 				printData(data.list,$('#repliesDiv'),$('#template'));
 				printPaging(data.page,$('.pagination'));
 			});
@@ -343,7 +343,7 @@ $(document).ready(function(){
 			
 			$.ajax({
 				type:'post',
-				url:'/replies',
+				url:'/replies/',
 				headers:{
 					"Content-Type":"application/json",
 					"X-HTTP-Method-Override":"post"
@@ -385,7 +385,7 @@ $(document).ready(function(){
 					if(result=='SUCCESS'){
 						alert("평점을 재평가 해주셔서 감사합니다.");
 						$('#modifyModal').modal('hide');
-						getPage("/replies"+ttr_no+"/"+replyPage);
+						getPage("/replies/"+ttr_no+"/"+replyPage);
 					}
 				}
 			});
@@ -406,7 +406,7 @@ $(document).ready(function(){
 					if(result='SUCCESS'){
 						alert("삭제됬습니다.");
 						$('#modifyModal').modal('hide');
-						getPage("replies/"+ttr_no+"/"+replyPage);
+						getPage("/replies/"+ttr_no+"/"+replyPage);
 					}
 				}
 			});
