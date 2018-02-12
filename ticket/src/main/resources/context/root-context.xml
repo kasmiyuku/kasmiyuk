@@ -48,13 +48,7 @@
 		  class="com.ticket.dao.impl.TheaterDAOImpl"
 		  p:sqlSession-ref="sqlSession" />
 	<bean id="TheaterServiceDAO"
-		  class="com.ticket.service.impl.TheaterServiceImpl"
+		  class="com.ticket.service.impl.TheaterServiceDAOImpl"
 		  p:theaterDAO-ref="TheaterDAO" />
 	
-	<bean id="ReplyDAO" 
-		  class="com.ticket.dao.impl.ReplyDAOImpl"
-		  p:sqlSession-ref="sqlSession" />
-	<bean id="ReplyService"
-		  class="com.ticket.service.impl.ReplyServiceImpl"
-		  p:replyDAO-ref="ReplyDAO" />
 </beans>

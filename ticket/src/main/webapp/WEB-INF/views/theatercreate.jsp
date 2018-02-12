@@ -29,15 +29,6 @@
 			background-color:lightslategray;
 			margin:auto;
 		}
-			.form-group ul {
-			overflow:hidden;
-		}
-			.form-group li{
-			list-style-type:none;
-			float:left;
-			margin-left:10px;
-		
-		}
 	</style>
 <meta charset="UTF-8">
 <title></title>
@@ -45,7 +36,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>

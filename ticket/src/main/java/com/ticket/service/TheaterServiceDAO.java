@@ -7,7 +7,7 @@ import com.ticket.domain.Criteria;
 import com.ticket.domain.TheaterVO;
 
 
-public interface TheaterService {
+public interface TheaterServiceDAO {
 
 	void createTheater(TheaterVO theater) throws SQLException;
 
@@ -23,7 +23,7 @@ public interface TheaterService {
 			throws SQLException;
 	
 	
-	List<String[]> getAttach(int ttr_no)throws SQLException;
+	List<String> getAttach(int ttr_no)throws SQLException;
 
 	
 }

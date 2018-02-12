@@ -1,6 +1,5 @@
 package com.ticket.dao.impl;
 
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +84,10 @@ public class TheaterDAOImpl implements TheaterDAO {
 	}
 
 
-	
+	@Override
+	public void deleteAttach(int ttr_no) throws SQLException {
+			sqlSession.update(NAMESPACE+".deleteAttach",ttr_no);
+	}
 	@Override
 	public List<String> selctAttachAll(int ttr_no) throws SQLException {
 		List<String> files=sqlSession.selectList(NAMESPACE+".selectAttachAll", ttr_no);
@@ -117,12 +119,6 @@ public class TheaterDAOImpl implements TheaterDAO {
 		files.toArray(tFiles);
 		return tFiles;
 	}
-	@Override
-	public int deleteAttachAll(int ttr_no) throws SQLException {	
-		int files = sqlSession.update(NAMESPACE+".deleteAttachAll",ttr_no);
-		return files;
-	}
-	
 
 	
 
