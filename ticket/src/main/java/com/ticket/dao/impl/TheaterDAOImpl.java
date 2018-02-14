@@ -10,6 +10,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.ticket.dao.TheaterDAO;
 import com.ticket.domain.Criteria;
+import com.ticket.domain.SearchCriteria;
+import com.ticket.domain.Seatinfo;
 import com.ticket.domain.TheaterVO;
 
 public class TheaterDAOImpl implements TheaterDAO {
@@ -118,6 +120,67 @@ public class TheaterDAOImpl implements TheaterDAO {
 		String[] tFiles=new String[files.size()];
 		files.toArray(tFiles);
 		return tFiles;
+	}
+
+	@Override
+	public List<TheaterVO> selectSearchList(SearchCriteria cri)
+			throws SQLException {
+			int offset = cri.getPageStart();
+			int limit = cri.getPerPageNum();
+			RowBounds rowBounds = new RowBounds(offset, limit);
+			
+			List<TheaterVO> theaterList = sqlSession.selectList(NAMESPACE+".selectSearchtheaterList",cri,rowBounds);
+		return theaterList;
+	}
+
+	@Override
+	public int selectSearchListCount(SearchCriteria cri) throws SQLException {
+			int listCount=(Integer)sqlSession.selectOne(NAMESPACE+".selectSearchtheaterCount",cri);
+		return listCount;
+	}
+
+	@Override
+	public void insertseat(Seatinfo seat) throws SQLException {
+		sqlSession.update(NAMESPACE+".insertseat",seat);
+	}
+
+	@Override
+	public void deleteseatbyseat_id(String seat_id) throws SQLException {
+		sqlSession.update(NAMESPACE+".deleteseatbyseat_id",seat_id);
+	}
+
+	@Override
+	public void deleteseatbyttr_no(int ttr_no) throws SQLException {
+		sqlSession.update(NAMESPACE+".deleteseatbyttr_no",ttr_no);
+	}
+
+	@Override
+	public void updateseatbyseat_id(Seatinfo seat) throws SQLException {
+		sqlSession.update(NAMESPACE+".updateseatbyseat_id",seat);
+		
+	}
+
+	@Override
+	public void updateseatbyttr_no(Seatinfo seat) throws SQLException {
+		sqlSession.update(NAMESPACE+".updateseatbyttr_no",seat);
+	}
+
+	@Override
+	public List<Seatinfo> selectseatbyttr_no(int ttr_no) throws SQLException {
+		List<Seatinfo> seat=sqlSession.selectList(NAMESPACE+".selectseatbyttr_no",ttr_no);
+		return seat;
+	}
+
+	@Override
+	public Seatinfo selectseatbyseat_id(String seat_id) throws SQLException {
+		Seatinfo seat=(Seatinfo) sqlSession.selectOne(NAMESPACE+".selectseatbyseat_id",seat_id);
+		return seat;
+	}
+
+	@Override
+	public List<Seatinfo> selectseat() throws SQLException {
+		List<Seatinfo> seat=sqlSession.selectList(NAMESPACE+".selectseat",null);
+		return seat;
 	}
 
 	

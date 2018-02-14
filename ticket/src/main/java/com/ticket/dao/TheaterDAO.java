@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.ticket.domain.Criteria;
+import com.ticket.domain.SearchCriteria;
+import com.ticket.domain.Seatinfo;
 import com.ticket.domain.TheaterVO;
 
 
@@ -18,11 +20,23 @@ public interface TheaterDAO {
 	List<TheaterVO> selectTheaterList() throws SQLException;
 
 	TheaterVO selectTheaterBytno(int ttr_no) throws SQLException;
-
+	
+	List<TheaterVO> selectSearchList(SearchCriteria cri)throws SQLException;	
 	
 	List<TheaterVO> selectTheaterListCriteria(Criteria cri) throws SQLException;
 
+	int selectSearchListCount(SearchCriteria cri)throws SQLException;
+	
 	void insertAttach(String fullName,int ttr_no,int file_kind)throws SQLException;
+	
+	void insertseat(Seatinfo seat) throws SQLException;
+	void deleteseatbyseat_id(String seat_id) throws SQLException;
+	void deleteseatbyttr_no(int ttr_no) throws SQLException;
+	void updateseatbyseat_id(Seatinfo seat) throws SQLException;
+	void updateseatbyttr_no(Seatinfo seat) throws SQLException;
+	List<Seatinfo> selectseatbyttr_no(int ttr_no) throws SQLException;
+	Seatinfo selectseatbyseat_id(String seat_id) throws SQLException;
+	List<Seatinfo> selectseat() throws SQLException;
 	
 	int selectMaxtno()throws SQLException;
 	List<String> selctAttachAll(int ttr_no)throws SQLException;

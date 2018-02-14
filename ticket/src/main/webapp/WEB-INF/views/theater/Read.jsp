@@ -99,7 +99,7 @@ $(document).ready(function(){
 	});
 	
 	$(".btn-primary").on("click", function(){
-		formObj.attr("action", "theaterlistpage");
+		formObj.attr("action", "listpage");
 		formObj.attr("method", "get");
 		formObj.submit();
 	});

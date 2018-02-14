@@ -15,11 +15,11 @@ function getFileInfo(fullName){
 		var front=fullName.substr(0,12); // /2017/12/15/
 		var end=fullName.substr(14); // s_ 이후
 		
-		getLink="/displayFile?fileName="+front+end;		
+		getLink="displayFile?fileName="+front+end;		
 	}else{
 		imgsrc="/resources/dist/img/file.png";
 		fileLink=fullName.substr(12);
-		getLink="/displayFile?fileName="+fullName;
+		getLink="displayFile?fileName="+fullName;
 	}
 	
 	

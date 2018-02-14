@@ -135,7 +135,7 @@
 					</form>
 					<div class="form-group">
 							<label >썸네일</label>
-						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList"></ul></div>													
+						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList0"></ul></div>													
 						</div>
 						<div class="form-group">
 							<label >좌석배치도</label>
@@ -222,46 +222,36 @@
 	});
 
 
-	$('.uploadedList').on('click','.delbtn',function(event){
+	$('.uploadedList0').on('click','.delbtn',function(event){
 		event.preventDefault();
 		
 		var that=$(this);
 		that.parent('div').parent('li').remove();
-		
-		$('.uploadedList1').on('click','.delbtn',function(event){
-			event.preventDefault();
-			
-			var that=$(this);
-			that.parent('div').parent('li').remove();
-			
-			$('.uploadedList2').on('click','.delbtn',function(event){
-				event.preventDefault();
-				
-				var that=$(this);
-				that.parent('div').parent('li').remove();
-				
-		/* $.ajax({
-			url:'/deleteFile',
-			type:'post',
-			data:{fileName:$(this).attr('href')},
-			dataType:'text',
-			success:function(result){
-				if(result=='deleted'){
-					that.parent('div').parent('li').remove();
-				}
-			}
-			
-		}); */
-		
 	});
+	$('.uploadedList1').on('click','.delbtn',function(event){
+		event.preventDefault();		
+		var that=$(this);
+		that.parent('div').parent('li').remove();
+	});
+	$('.uploadedList2').on('click','.delbtn',function(event){
+		event.preventDefault();
+		var that=$(this);
+		that.parent('div').parent('li').remove();
+	});
+	
 
 	var ttr_no=${theaterVO.ttr_no};
 
 	$.getJSON("/getAttach/"+ttr_no,function(list){
+		var i=0;
 		$(list).each(function(){
-			var fileInfo=getFileInfo(this);
-			var html=template(fileInfo);
-			$('.uploadedList').append(html);
+			$(this).each(function(){				
+				var fileInfo=getFileInfo(this);
+				
+				var html=template(fileInfo);
+				$(".uploadedList"+i).append(html);
+			});
+			i++;
 		});
 	});
 
@@ -288,20 +278,14 @@
 
 
 
-	$(document).ready(
-		function() {
-
+	$(document).ready(function(){
 			var formObj = $("form[role='form']");
-
 			console.log(formObj);
-			
 			formObj.submit(function(event){
 				event.preventDefault();
-				
 				var that=$(this);
-				
 				var str="";
-				$('.uploadedList .delbtn').each(function(index){
+				$('.uploadedList0 .delbtn').each(function(index){
 					str+="<input type='hidden' name='thumFiles'"
 					+"value='"+$(this).attr('href')+"'>";
 				});
@@ -315,12 +299,10 @@
 					str+="<input type='hidden' name='files'"
 					+"value='"+$(this).attr('href')+"'>";
 				});
-				
-
 				that.append(str);
 				that.get(0).submit();
-			})
-			
+			});
+		
 		});
 </script>
 

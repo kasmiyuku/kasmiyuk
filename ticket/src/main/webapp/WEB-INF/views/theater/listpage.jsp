@@ -27,9 +27,30 @@
 						<h3 class="box-title">연극</h3>
 					</div>
 					<div class="box-body">
+							<select name="searchType">
+						<option value="n"
+							<c:out value="${cri.searchType == null?'selected':''}"/>>
+							---</option>
+						<option value="t"
+							<c:out value="${cri.searchType eq 't'?'selected':''}"/>>
+							아이디</option>
+						<option value="c"
+							<c:out value="${cri.searchType eq 'c'?'selected':''}"/>>
+							제목</option>
+						<option value="w"
+							<c:out value="${cri.searchType eq 'w'?'selected':''}"/>>
+							전시내용</option>
+		
+						<option value="cw"
+							<c:out value="${cri.searchType eq 'cw'?'selected':''}"/>>
+							제목+아이디</option>
+						
+					</select> <input type="text" name='keyword' id="keywordInput"
+						value='${cri.keyword }'>
+					<button id='searchBtn' class="btn btn-primary">검색</button>
 						<button id="new Btn"
 								class="btn btn-primary"
-								onclick="javascript:location.href='theatercreate'">글쓰기</button>	
+								onclick="javascript:location.href='create'">글쓰기</button>	
 									</div>
 								</div>	
 					<div class="box">
@@ -56,12 +77,12 @@
 									<td>${TheaterVO.ttr_no}</td>
 									<td>
 										<c:forEach var="fileName" items="${TheaterVO.thumFiles}">
-											<img src="/displayFile?fileName=${fileName }">
+											<img src="/theater/displayFile?fileName=${fileName }">
 										</c:forEach>
 									
 									</td>
 									<td>${TheaterVO.ttr_cat}</td>
-									<td><a href='theaterReadpage${page.makeQuery(page.cri.page) }&ttr_no=${TheaterVO.ttr_no}'>${TheaterVO.ttr_title}</a></td>
+									<td><a href='Readpage${page.makeQuery(page.cri.page) }&ttr_no=${TheaterVO.ttr_no}'>${TheaterVO.ttr_title}</a></td>
 									<td>${TheaterVO.com_id}</td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd"
 											value="${TheaterVO.ttr_date}" /></td>
@@ -114,9 +135,27 @@
 			
 			var jobForm =$("#jobForm");
 			jobForm.find("[name='page']").val(targetPage);
-			jobForm.attr("action","theaterlistpage").attr("method","get");
+			jobForm.attr("action","listpage").attr("method","get");
 			jobForm.submit();
 		});
+		
+		$(document).ready(
+				function() {
+
+					$('#searchBtn').on(
+							"click",
+							function(event) {
+
+								self.location = "listpage"
+										+ '${page.makeQuery(1)}'
+										+ "&searchType="
+										+ $("select option:selected").val()
+										+ "&keyword=" + $('#keywordInput').val();
+
+							});
+
+
+				});
 	</script>
 </body>
 </html>

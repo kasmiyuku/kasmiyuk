@@ -53,7 +53,7 @@
 						<h3 class="box-title">연극</h3>
 					</div>
 
-					<form role="form" id="registerForm" action="theatercreate" method="post">
+					<form role="form" id="registerForm" action="create" method="post">
 
 						<input type="hidden" name='page' value="${cri.page }" /> 
 						<input type="hidden" name='perPageNum' value="${cri.perPageNum }" />
@@ -106,6 +106,16 @@
 								<label for="exampleInputEmail1">내용</label>
 								<textarea name='ttr_content' class="" rows="3">${theaterVO.ttr_content}</textarea>
 							</div>
+							<div><label>좌석정보</label><button id="addseat" type="button">+</button>
+								<table id="seat_table">
+									<tr>
+										<td>등급</td>
+										<td>좌석수</td>
+										<td>가격</td>
+										<td>날짜</td>
+										<td>시간</td>
+									</tr>
+								</table>
 						<div class="form-group">
 							<label >썸네일</label>
 						<div class="fileDrop"><ul class="mailbox-attachments clearfix uploadedList"></ul></div>													
@@ -119,6 +129,7 @@
 							<div class="fileDrop2"><ul class="mailbox-attachments clearfix uploadedList2"></ul></div>	
 																			
 						</div>
+						
 						</div>
 						<div class="box-footer">
 						
@@ -227,9 +238,14 @@
 			}
 		});
 	});
-	
-	
-	
+	('#addseat').on('click',function(event){
+		if($('.seat_info').length<11){
+			
+		
+		var str="<tr class='seat_info'><input type='hidden' name='seat_id'><td><input type='text' name='seat_grd'></td><td><input type='number' name='seat_no'></td><td><input type='number' name='seat_pri'></td><td><input type='date' name='seat_date'></td><td><input type='time' name='seat_time'></td><td><input type='button' class='delseat' value='-'></tr>";
+		$('#seat_table').append(str);
+		}
+	})
 	
 	
 </script>

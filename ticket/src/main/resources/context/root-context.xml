@@ -51,4 +51,22 @@
 		  class="com.ticket.service.impl.TheaterServiceDAOImpl"
 		  p:theaterDAO-ref="TheaterDAO" />
 	
+	<bean id="replyDAO"
+		  class="com.ticket.dao.impl.ReplyDAOImpl"
+		  p:namespace="TheaterMapper"
+		  p:sqlSession-ref="sqlSession"	/>  
+	
+	<bean id="replyService"
+	      class="com.ticket.service.impl.ReplyServiceImpl"
+	      p:replyDAO-ref="replyDAO"
+	      />
+	<bean id="resDAO"
+		  class="com.ticket.dao.impl.ResDAOImpl"
+		  p:sqlSession-ref="sqlSession"
+		  />
+	<bean  id="resService"
+		   class="com.ticket.service.impl.ResServiceImpl"
+		   p:resDAO-ref="resDAO"
+		   />
+	
 </beans>

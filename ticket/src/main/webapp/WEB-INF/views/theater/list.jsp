@@ -47,7 +47,7 @@
 								<tr>
 									<td>${TheaterVO.ttr_no}</td>
 									<td>${TheaterVO.ttr_cat}</td>
-									<td><a href='theaterReadpage${page.makeQuery(page.cri.page) }&ttr_no=${TheaterVO.ttr_no}'>${TheaterVO.ttr_title}</a></td>
+									<td><a href='Readpage${page.makeQuery(page.cri.page) }&ttr_no=${TheaterVO.ttr_no}'>${TheaterVO.ttr_title}</a></td>
 									<td>${TheaterVO.com_id}</td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 											value="${TheaterVO.ttr_date}" /></td>

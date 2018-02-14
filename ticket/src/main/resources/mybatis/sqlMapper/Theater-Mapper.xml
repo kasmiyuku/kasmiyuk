@@ -12,7 +12,7 @@
 
 	<select id="selectTheaterBytno" resultType="theater">
 		select 
-		ttr_no, com_id, ttr_cat, ttr_title, ttr_sdate,  ttr_edate, ttr_place, ttr_time, ttr_alert, ttr_content
+		ttr_no, com_id, ttr_cat, ttr_title,ttr_date, ttr_sdate,  ttr_edate, ttr_place, ttr_time, ttr_alert, ttr_content
 		 from
 		theater
 		where ttr_no = #{ttr_no}
@@ -68,4 +68,92 @@
 		delete from file_tbl
 		where ttr_no=#{ttr_no}
 	</update>
+	<select id="selectReplyList" resultType="reply">
+		select * 
+		from theater_reply
+		where ttr_no=#{ttr_no}
+		order by tr_rno desc
+	</select>
+	
+	<update id="insertReply">
+		insert into theater_reply(tr_rno,tr_content,ttr_no,mem_id,tr_date,ttr_score)
+		values(reply_seq.nextval,#{tr_content},#{ttr_no},#{mem_id},sysdate,#{ttr_score})
+	</update>
+	
+	<update id="updateReply" parameterType="reply">
+		update theater_reply set tr_content=#{tr_content},
+		tr_date=sysdate
+		where tr_rno=#{tr_rno}
+	</update>
+	
+	<update id="deleteReply" parameterType="int">
+		delete from theater_reply where tr_rno=#{tr_rno}
+	</update>
+	
+	<select id="selectReplyListPage" resultType="reply">
+		select *
+		from theater_reply
+		where ttr_no=#{ttr_no}
+		order by tr_rno desc		
+	</select>
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">
+				and com_id like '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType == 'c'.toString()">
+				and ttr_title like '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType == 'w'.toString()">
+				and ttr_cat like '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType == 'cw'.toString()">
+				and ( ttr_content like '%'||#{keyword}||'%' OR com_id
+				like
+				'%'||#{keyword}||'%'
+			</if>
+		</if>
+	</sql>
+
+	<select id="selectSearchtheaterList" resultType="theater">
+	<![CDATA[ 
+		select *
+		from theater
+		where ttr_no > 0		
+	]]>
+		<include refid="search"></include>
+		order by ttr_no desc
+	</select>
+	<select id="selectSearchtheaterCount" resultType="int">
+		<![CDATA[  
+		  select count(ttr_no) 
+		  from theater 
+		  where ttr_no > 0 
+		]]>
+		<include refid="search"></include>
+	</select>
+	<update id="insertseat">
+		insert into seat(seat_id,ttr_no,seat_grd,seat_no,seat_pri,seat_date,seat_time)
+		values(seat_seq.nextval,#{ttr_no},#{seat_grd},#{seat_no},#{seat_pri},#{seat_date},#{seat_time})
+	</update>
+	
+	<update id="updateseatbyseat_id">
+		update seat set seat_grd=#{seat_grd},seat_no=#{seat_no},seat_pri=#{seat_pri},seat_date=#{seat_date},seat_time=#{seat_time}
+		where seat_id=#{seat_id}
+	</update>
+	
+	<update id="updateseatbyttr_no">
+		update seat set seat_grd=#{seat_grd},seat_no=#{seat_no},seat_pri=#{seat_pri},seat_date=#{seat_date},seat_time=#{seat_time}
+		where ttr_no=#{ttr_no}
+	</update>
+	
+	<update id="deleteseatbyseat_id">
+		delete seat where seat_id=#{seat_id}
+	</update>
+	
+	<update id="deleteseatbyttr_no">
+		delete seat where ttr_no=#{ttr_no}
+	</update>
+	
+	
 </mapper>

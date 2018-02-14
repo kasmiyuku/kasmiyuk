@@ -6,5 +6,8 @@
 		<typeAlias alias="str" type="java.lang.String" />
 		<typeAlias alias="int" type="java.lang.Integer" />
 		<typeAlias alias="theater" type="com.ticket.domain.TheaterVO" />
+		<typeAlias alias="reply" type="com.ticket.domain.ReplyVO"/>
+		<typeAlias alias="res" type="com.ticket.domain.ResVO"/>
+		<typeAlias alias="mem" type="com.ticket.domain.MemberVO"/>
 	</typeAliases>	
 </configuration>
